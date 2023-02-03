@@ -1,6 +1,6 @@
 FROM docker.io/library/rust:1.67.0 as builder
 
-RUN USER=root cargo install cargo-auditing
+RUN USER=root cargo install cargo-auditable
 RUN USER=root cargo new --bin nostr-rs-relay
 WORKDIR ./nostr-rs-relay
 COPY ./Cargo.toml ./Cargo.toml

@@ -2,36 +2,32 @@
 
 [info]
 # The advertised URL for the Nostr websocket.
-relay_url = "wss://nostr.example.com/"
+relay_url = "wss://nostr.app.runonflux.io"
 
 # Relay information for clients.  Put your unique server name here.
-name = "nostr-rs-relay"
+name = "Flux Nostr Relay - wss://nostr.app.runonflux.io - Deploy Your Own @ runonflux.io"
 
 # Description
-description = "A newly created nostr-rs-relay.\n\nCustomize this with your own info."
+description = "This Flux Relay Does Not Use Persistent Storage"
 
 # Administrative contact pubkey
-#pubkey = "0c2d168a4ae8ca58c9f1ab237b5df682599c6c7ab74307ea8b05684b60405d41"
+pubkey = "npub13kjj2yz6a076fnl88j22d6nmsfa67vvusg6aue8hq8kcg00g4faqethzz7"
 
 # Administrative contact URI
-#contact = "mailto:contact@example.com"
+contact = "mailto:tomw@runonflux.io"
 
 [diagnostics]
 # Enable tokio tracing (for use with tokio-console)
-#tracing = false
+#tracing = true
 
 [database]
-# Database engine (sqlite/postgres).  Defaults to sqlite.
-# Support for postgres is currently experimental.
-#engine = "sqlite"
-
 # Directory for SQLite files.  Defaults to the current directory.  Can
 # also be specified (and overriden) with the "--db dirname" command
 # line option.
-#data_directory = "."
+data_directory = "."
+
 
 # Use an in-memory database instead of 'nostr.db'.
-# Requires sqlite engine.
 # Caution; this will not survive a process restart!
 #in_memory = false
 
@@ -43,10 +39,6 @@ description = "A newly created nostr-rs-relay.\n\nCustomize this with your own i
 # Maximum number of SQLite reader connections.  Recommend setting this
 # to approx the number of cores.
 #max_conn = 8
-
-# Database connection string.  Required for postgres; not used for
-# sqlite.
-#connection = "postgresql://postgres:nostr@localhost:7500/nostr"
 
 [network]
 # Bind to this network address
@@ -67,22 +59,17 @@ port = 8080
 # Reject events that have timestamps greater than this many seconds in
 # the future.  Recommended to reject anything greater than 30 minutes
 # from the current time, but the default is to allow any date.
-reject_future_seconds = 1800
+#reject_future_seconds = 1800
 
 [limits]
 # Limit events created per second, averaged over one minute.  Must be
-# an integer.  If not set (or set to 0), there is no limit.  Note:
+# an integer.  If not set (or set to 0), defaults to unlimited.  Note:
 # this is for the server as a whole, not per-connection.
-#
-# Limiting event creation is highly recommended if your relay is
-# public!
-#
-#messages_per_sec = 5
+# messages_per_sec = 0
 
 # Limit client subscriptions created per second, averaged over one
 # minute.  Must be an integer.  If not set (or set to 0), defaults to
-# unlimited.  Strongly recommended to set this to a low value such as
-# 10 to ensure fair service.
+# unlimited.
 #subscriptions_per_min = 0
 
 # UNIMPLEMENTED...
@@ -97,13 +84,13 @@ reject_future_seconds = 1800
 
 # Limit the maximum size of an EVENT message.  Defaults to 128 KB.
 # Set to 0 for unlimited.
-#max_event_bytes = 131072
+#max_event_bytes = 0
 
 # Maximum WebSocket message in bytes.  Defaults to 128 KB.
-#max_ws_message_bytes = 131072
+#max_ws_message_bytes = 0
 
 # Maximum WebSocket frame size in bytes.  Defaults to 128 KB.
-#max_ws_frame_bytes = 131072
+#max_ws_frame_bytes = 0
 
 # Broadcast buffer size, in number of events.  This prevents slow
 # readers from consuming memory.
@@ -138,7 +125,7 @@ reject_future_seconds = 1800
 
 # Domain names that are allowed to publish events.  If defined, only
 # events NIP-05 verified authors at these domains are persisted.
-#domain_whitelist = ["example.com"]
+#domain_whitelist = ["acme.slyfi.com"]
 
 # Consider an pubkey "verified" if we have a successful validation
 # from the NIP-05 domain within this amount of time.  Note, if the

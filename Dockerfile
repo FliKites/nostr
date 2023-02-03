@@ -1,6 +1,6 @@
 FROM docker.io/library/rust:1.67.0 as builder
 
-RUN USER=root cargo install cargo-auditable
+RUN USER=root cargo install cargo-auditing
 RUN USER=root cargo new --bin nostr-rs-relay
 WORKDIR ./nostr-rs-relay
 COPY ./Cargo.toml ./Cargo.toml
@@ -16,6 +16,9 @@ COPY ./src ./src
 # build auditable release using locked deps
 RUN rm ./target/release/deps/nostr*relay*
 RUN cargo auditable build --release --locked
+
+# Copy the bash script into the image
+COPY config.sh /
 
 FROM docker.io/library/debian:bullseye-slim
 
@@ -44,5 +47,9 @@ WORKDIR ${APP}
 
 ENV RUST_LOG=info,nostr_rs_relay=info
 ENV APP_DATA=${APP_DATA}
+
+# Run the bash script as part of the build process
+RUN chmod +x /config.sh
+RUN /config.sh
 
 CMD ./nostr-rs-relay --db ${APP_DATA}

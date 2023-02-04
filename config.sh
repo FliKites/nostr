@@ -9,7 +9,7 @@ if [ -n "$DESCRIPTION" ]; then
   sed -i "s|^description =.*|description = \"$DESCRIPTION\"|" config.toml
 fi
 if [ -n "$PUB_KEY" ]; then
-  sed -i "s|^pub_key =.*|pub_key = \"$PUB_KEY\"|" config.toml
+  sed -i "s|^pubkey =.*|pubkey = \"$PUB_KEY\"|" config.toml
 fi
 if [ -n "$CONTACT" ]; then
   sed -i "s|^contact =.*|contact = \"$CONTACT\"|" config.toml

@@ -1,5 +1,4 @@
 FROM docker.io/library/rust:1.67.0 as builder
-
 RUN USER=root cargo install cargo-auditable
 RUN USER=root cargo new --bin nostr-rs-relay
 WORKDIR ./nostr-rs-relay
@@ -18,8 +17,6 @@ RUN rm ./target/release/deps/nostr*relay*
 RUN cargo auditable build --release --locked
 
 # Copy the bash script into the image
-COPY config.sh /
-
 FROM docker.io/library/debian:bullseye-slim
 
 ARG APP=/usr/src/app
@@ -31,13 +28,10 @@ RUN apt-get update \
 EXPOSE 8080
 
 ENV TZ=Etc/UTC \
-    APP_USER=appuser
+    APP_USER=root
 
-RUN groupadd $APP_USER \
-    && useradd -g $APP_USER $APP_USER \
-    && mkdir -p ${APP} \
+RUN mkdir -p ${APP} \
     && mkdir -p ${APP_DATA}
-
 COPY --from=builder /nostr-rs-relay/target/release/nostr-rs-relay ${APP}/nostr-rs-relay
 
 RUN chown -R $APP_USER:$APP_USER ${APP}
@@ -48,8 +42,8 @@ WORKDIR ${APP}
 ENV RUST_LOG=info,nostr_rs_relay=info
 ENV APP_DATA=${APP_DATA}
 
-# Run the bash script as part of the build process
-RUN chmod +x /config.sh
-RUN /config.sh
+# Run the bash script as part of the build pro
+COPY config.toml /usr/src/app/config.toml
+COPY config.sh /usr/src/app/config.sh
 
-CMD ./nostr-rs-relay --db ${APP_DATA}
+ENTRYPOINT ["./config.sh"]

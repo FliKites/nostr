@@ -1,7 +1,4 @@
-===BASH===
 #!/bin/bash
-
-# Check if the environment variables exist
 if [ -n "$RELAY_URL" ]; then
   sed -i "s|^relay_url =.*|relay_url = \"$RELAY_URL\"|" config.toml
 fi
@@ -24,3 +21,4 @@ if [ $? -eq 0 ]; then
 else
   echo "Failed to change the values in config.toml"
 fi
+ ./nostr-rs-relay --db ${APP_DATA}

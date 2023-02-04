@@ -14,7 +14,7 @@ fi
 if [ -n "$CONTACT" ]; then
   sed -i "s|^contact =.*|contact = \"$CONTACT\"|" config.toml
 fi
-
+chmod 0444 config.toml 
 # Check if the changes were made successfully
 if [ $? -eq 0 ]; then
   echo "Successfully changed the values in config.toml"
